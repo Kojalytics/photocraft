@@ -41,7 +41,7 @@ fn open_filter_extensions(extensions: &[&str]) -> Vec<String> {
 fn open_filters() -> Vec<(&'static str, Vec<String>)> {
     vec![
         ("All Formats", open_filter_extensions(OPEN_EXTS)),
-        ("PhotoCraft", open_filter_extensions(&["pcraft"])),
+        ("PhotoKoja", open_filter_extensions(&["pcraft"])),
         ("OpenRaster", open_filter_extensions(&["ora"])),
         ("Krita", open_filter_extensions(&["kra", "krz"])),
         ("SVG", open_filter_extensions(SVG_EXTS)),
@@ -54,7 +54,7 @@ fn open_filters() -> Vec<(&'static str, Vec<String>)> {
 const SAVE_FILTERS: &[(&str, &[&str])] = &[
     ("PSD Document", &["psd", "psb"]),
     ("PDF", &["pdf"]),
-    ("PhotoCraft", &["pcraft"]),
+    ("PhotoKoja", &["pcraft"]),
     ("OpenRaster", &["ora"]),
     ("PNG", &["png"]),
     ("JPEG", &["jpg"]),
@@ -740,8 +740,8 @@ mod tests {
     #[test]
     fn xwayland_command_matches_how_photocraft_was_installed() {
         // Flatpak: WAYLAND_DISPLAY doesn't reach the sandbox's socket choice; flatpak's flags do.
-        let flatpak = xwayland_command(Some("ai.storyteller.photocraft"), None, false);
-        assert_eq!(flatpak.as_deref(), Some("flatpak run --nosocket=wayland --socket=x11 ai.storyteller.photocraft"));
+        let flatpak = xwayland_command(Some("com.kojalytics.photocraft"), None, false);
+        assert_eq!(flatpak.as_deref(), Some("flatpak run --nosocket=wayland --socket=x11 com.kojalytics.photocraft"));
         // AppImage: its own path, quoted for the shell (spaces, quotes).
         let appimage = xwayland_command(None, Some("/home/me/My Apps/it's.AppImage"), true);
         assert_eq!(appimage.as_deref(), Some(r"WAYLAND_DISPLAY= '/home/me/My Apps/it'\''s.AppImage'"));

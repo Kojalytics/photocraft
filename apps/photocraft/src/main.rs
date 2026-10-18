@@ -81,7 +81,7 @@ use photocraft_engine::Session;
 use photocraft_ui_egui::PhotocraftApp;
 
 /// Matches the `.desktop` file and hicolor icon name, so Wayland docks pick up the icon.
-const APP_ID: &str = "ai.storyteller.photocraft";
+const APP_ID: &str = "com.kojalytics.photocraft";
 
 /// Windows and Linux: no OS title bar; the app's top bar is the title bar, with its own caption
 /// buttons and edge resizing (`photocraft_ui_egui::titlebar`), as Photoshop does on Windows. macOS
@@ -109,7 +109,7 @@ fn native_options(custom_titlebar: bool) -> eframe::NativeOptions {
     eframe::NativeOptions {
         viewport: viewport
             .with_app_id(APP_ID)
-            .with_title("PhotoCraft")
+            .with_title("PhotoKoja")
             .with_inner_size([1440.0, 900.0])
             .with_min_inner_size([760.0, 480.0])
             .with_drag_and_drop(true)
@@ -357,7 +357,7 @@ fn main() -> eframe::Result {
     // and usage errors leave no file behind. Records logged until now are written to it first.
     if let (Some(logger), Some(dir)) = (logger, services::config_dir()) {
         match logger.attach_dir(&dir.join("logs")) {
-            Ok(path) => log::info!("PhotoCraft {}, log file {}", photocraft_engine::build_info::long_version(), path.display()),
+            Ok(path) => log::info!("PhotoKoja {}, log file {}", photocraft_engine::build_info::long_version(), path.display()),
             // Standard error only by now (`attach_dir` gave up on the file); unlike `eprintln!`, never panics.
             Err(e) => log::warn!("no log file: {e}"),
         }
@@ -379,7 +379,7 @@ fn main() -> eframe::Result {
         };
         match (single_instance::skip_reason(&context), services::config_dir()) {
             (Some(reason), _) => {
-                log::info!("running as a separate PhotoCraft: {reason}");
+                log::info!("running as a separate PhotoKoja: {reason}");
                 None
             }
             (None, None) => None,
@@ -387,12 +387,12 @@ fn main() -> eframe::Result {
                 let paths: Vec<String> = files.iter().map(|f| single_instance::absolute(f)).collect();
                 match single_instance::claim(&dir, &paths) {
                     single_instance::Launch::Forwarded => {
-                        log::info!("handed {} file(s) to the running PhotoCraft", paths.len());
+                        log::info!("handed {} file(s) to the running PhotoKoja", paths.len());
                         return Ok(());
                     }
                     single_instance::Launch::Primary(primary) => Some(primary),
                     single_instance::Launch::Standalone(reason) => {
-                        log::warn!("starting a separate PhotoCraft: {reason}");
+                        log::warn!("starting a separate PhotoKoja: {reason}");
                         None
                     }
                 }
@@ -549,7 +549,7 @@ fn main() -> eframe::Result {
     let created_in_callback = app_created.clone();
     let started_sentinel = sentinel.clone();
     let result = eframe::run_native(
-        "PhotoCraft",
+        "PhotoKoja",
         options,
         Box::new(move |cc| {
             created_in_callback.store(true, std::sync::atomic::Ordering::Relaxed);
@@ -849,7 +849,7 @@ mod tests {
             .with_fullscreen(true)
             .with_maximized(true);
         let opened = hook(saved);
-        assert_eq!(opened.fullscreen, Some(false), "Standard Screen Mode is where PhotoCraft starts");
+        assert_eq!(opened.fullscreen, Some(false), "Standard Screen Mode is where PhotoKoja starts");
         assert_eq!(opened.maximized, Some(true), "the rest of the saved geometry is kept");
         assert_eq!(opened.inner_size, Some(egui::vec2(2560.0, 1392.0)));
     }
@@ -879,7 +879,7 @@ mod tests {
     /// so it has to be the class the window carries: the app id, on Wayland and X11 alike.
     #[test]
     fn the_desktop_entry_names_the_window_class() {
-        let entry = include_str!("../../../packaging/linux/ai.storyteller.photocraft.desktop");
+        let entry = include_str!("../../../packaging/linux/com.kojalytics.photocraft.desktop");
         let class = entry.lines().find_map(|line| line.strip_prefix("StartupWMClass="));
         assert_eq!(class, Some(super::APP_ID));
     }

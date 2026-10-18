@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build and package PhotoCraft for Linux (<arch> is x86_64, aarch64 or riscv64):
+# Build and package PhotoKoja for Linux (<arch> is x86_64, aarch64 or riscv64):
 #
 #   $DIST/photocraft-<version>-linux-<arch>.AppImage  any distro with glibc >= the build host's
 #   $DIST/photocraft-<version>-linux-<arch>.AppImage.zsync  delta updates (needs zsyncmake)
@@ -23,7 +23,7 @@ set -euo pipefail
 HERE="$ROOT/packaging/linux"
 # shellcheck source=verified-download.sh
 . "$HERE/verified-download.sh"
-APP_ID=ai.storyteller.photocraft
+APP_ID=com.kojalytics.photocraft
 
 SKIP_BUILD=0
 FORMATS="appimage deb rpm tar"
@@ -43,10 +43,10 @@ case "$ARCH" in
   aarch64 | arm64) ARCH=aarch64; DEB_ARCH=arm64 ;;
   *) echo "unsupported architecture $ARCH" >&2; exit 2 ;;
 esac
-export PHOTOCRAFT_MAINTAINER="${PHOTOCRAFT_MAINTAINER:-PhotoCraft maintainers <photocraft@storyteller.ai>}"
+export PHOTOCRAFT_MAINTAINER="${PHOTOCRAFT_MAINTAINER:-PhotoKoja maintainers <photocraft@storyteller.ai>}"
 BASENAME="photocraft-$VERSION-linux-$ARCH"
 
-echo "==> PhotoCraft $VERSION for Linux $ARCH ($FORMATS)"
+echo "==> PhotoKoja $VERSION for Linux $ARCH ($FORMATS)"
 
 if [ "$SKIP_BUILD" = 0 ]; then
   if [ -n "${CROSS_TARGET:-}" ]; then
@@ -105,7 +105,7 @@ fi
 
 # ---- AppImage -----------------------------------------------------------------------------------
 if has appimage; then
-  APPDIR="$WORK/PhotoCraft.AppDir"
+  APPDIR="$WORK/PhotoKoja.AppDir"
   cp -R "$STAGE" "$APPDIR"
   mv "$APPDIR/usr/share/doc" "$WORK/doc-unused"
   # AppRun is a script, not a symlink: it installs the .desktop entry and icons into
@@ -159,7 +159,7 @@ if has appimage; then
   # file and fetch only the blocks that changed in a newer release, through the .zsync published
   # next to each AppImage on GitHub Releases. `latest` is the newest published release that is
   # not a pre-release. A fork's builds point at its own releases through GITHUB_REPOSITORY.
-  REPO="${GITHUB_REPOSITORY:-storytold/photocraft}"
+  REPO="${GITHUB_REPOSITORY:-Kojalytics/photocraft}"
   UPDATE_INFO="gh-releases-zsync|${REPO%%/*}|${REPO#*/}|latest|photocraft-*-linux-$ARCH.AppImage.zsync"
   # Extract-and-run: works without FUSE (containers, CI). The output embeds the static runtime,
   # so users don't need libfuse2 either. With zsyncmake on the host (CI installs the zsync

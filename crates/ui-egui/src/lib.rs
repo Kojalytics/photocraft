@@ -14,6 +14,8 @@ macro_rules! tl {
     };
 }
 
+#[cfg(not(target_arch = "wasm32"))]
+mod license;
 pub mod actions;
 pub mod adjust_dialog;
 pub mod adjust_editors;
@@ -1989,6 +1991,11 @@ impl eframe::App for PhotocraftApp {
     }
 
     fn ui(&mut self, ui: &mut egui::Ui, frame: &mut eframe::Frame) {
+        // Without an activated Kojalytics license the window shows the lock screen instead.
+        #[cfg(not(target_arch = "wasm32"))]
+        if !crate::license::gate(ui) {
+            return;
+        }
         let ctx = ui.ctx().clone();
         self.hover_layer = None;
         i18n::set_current(i18n::Lang::from_pref(&self.session.prefs().interface.language));
