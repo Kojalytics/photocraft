@@ -18,13 +18,13 @@
      xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   <Package
       Name="PhotoKoja"
-      Manufacturer="Learning Machines LLC"
+      Manufacturer="Kojalytics"
       Version="$(var.Version)"
-      UpgradeCode="D9660F32-2D0A-4ABE-B73D-17BE25F1542C"
+      UpgradeCode="99993A06-FAFD-5287-AE26-D94655CB3001"
       Scope="perMachine"
       Compressed="yes"
       Language="1033">
-    <SummaryInformation Description="PhotoKoja image editor" Manufacturer="Learning Machines LLC" />
+    <SummaryInformation Description="PhotoKoja image editor" Manufacturer="Kojalytics" />
     <!-- Same-version upgrades let successive pre-releases of one X.Y.Z replace each other
          (MSI versions are numeric, so 1.2.3-rc.1 and 1.2.3-rc.2 are both 1.2.3). -->
     <MajorUpgrade AllowSameVersionUpgrades="yes"
@@ -81,7 +81,7 @@
 
   <Fragment>
     <ComponentGroup Id="PhotocraftFiles" Directory="INSTALLFOLDER">
-      <Component Id="PhotocraftApp" Guid="A6DE41B7-A80F-4C59-A17E-BB68065BF67E">
+      <Component Id="PhotocraftApp" Guid="80D946BD-2D0C-5193-9E85-EA4E3B289B9D">
         <File Id="PhotocraftExe" Source="$(var.BinDir)\photocraft.exe" KeyPath="yes">
           <Shortcut Id="StartMenuShortcut" Directory="ProgramMenuFolder" Name="PhotoKoja"
               Description="PhotoKoja image editor" WorkingDirectory="INSTALLFOLDER" Advertise="yes"

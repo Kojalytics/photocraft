@@ -15,7 +15,7 @@ fn main() {
     res.set_icon("../../assets/app-icon/photocraft.ico")
         .set("ProductName", "PhotoKoja")
         .set("FileDescription", "PhotoKoja image editor")
-        .set("CompanyName", "Learning Machines LLC")
+        .set("CompanyName", "Kojalytics")
         .set("LegalCopyright", "Copyright (c) the PhotoKoja authors. MIT OR Apache-2.0.")
         .set("OriginalFilename", "photocraft.exe")
         .set("InternalName", "photocraft");
